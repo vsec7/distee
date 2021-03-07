@@ -171,6 +171,6 @@ func main() {
 		    }
 		}
 		
-    	fmt.Println(str)
+    	fmt.Printf(str)
 	}
 }
