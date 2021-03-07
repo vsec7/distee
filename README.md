@@ -1,5 +1,11 @@
 # DisTee ( Discord Tee )
 
+<p align="center">
+<a href="https://goreportcard.com/report/github.com/vsec7/distee"><img src="https://goreportcard.com/badge/github.com/vsec7/distee"></a>
+<a href="https://github.com/vsec7/distee/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
+<a href="https://twitter.com/verry__d"><img src="https://img.shields.io/twitter/follow/verry__d.svg?logo=twitter"></a>
+</p>
+
 DisTee is a GO tool that works like tee command, Feed input to distee through the stdin.
 
 Crafted By : github.com/vsec7
