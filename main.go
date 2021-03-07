@@ -1,16 +1,16 @@
 package main
 
 import (
-  "gopkg.in/yaml.v2"
-  "bufio"
-  "os/user"
-  "fmt"
-  "io/ioutil"
-  "os"
-  "flag"
-  "strings"
-  "github.com/logrusorgru/aurora"
-  "github.com/bwmarrin/discordgo"
+	"gopkg.in/yaml.v2"
+	"bufio"
+	"os/user"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"flag"
+	"strings"
+	"github.com/logrusorgru/aurora"
+	"github.com/bwmarrin/discordgo"
 )
 
 var (
@@ -44,7 +44,7 @@ func init() {
 			"DisTee (Discord Tee)",
 			"",
 			"Is a GO tool that works like tee command",
-			"Feed input to distee through the stdin",
+			"Feed input to Discord through the stdin",
 			"",
 			"Crafted By : github.com/vsec7",
 			"",
@@ -65,6 +65,27 @@ func init() {
 		fmt.Fprintf(os.Stderr, strings.Join(h, "\n"))
 	}
 	flag.Parse()
+}
+
+func Chunks(s string, chunkSize int) []string {
+	if chunkSize >= len(s) {
+		return []string{s}
+	}
+	var chunks []string
+	chunk := make([]rune, chunkSize)
+	len := 0
+	for _, r := range s {
+		chunk[len] = r
+		len++
+		if len == chunkSize {
+			chunks = append(chunks, string(chunk))
+			len = 0
+		}
+	}
+	if len > 0 {
+		chunks = append(chunks, string(chunk[:len]))
+	}
+	return chunks
 }
 
 func main() {
@@ -129,25 +150,29 @@ func main() {
     	bytes, _ := ioutil.ReadAll(os.Stdin)
         str := string(bytes)
         
-        if Code == true {
-		    msgs = "```\n" + str + "\n```"
-		} else {
-			 msgs = "" + str + ""
+	    cs := Chunks(str, 1900)
+		for _, c := range cs {
+			
+			if Code == true {
+			    msgs = "```\n" + c + "\n```"
+			} else {
+				 msgs = "" + c + ""
+			}
+	
+	        if len(Title) != 0 {
+		    	msgs = "> " + Title + "\n" + msgs + ""
+		    } else {
+		    	msgs = "" + msgs + ""
+		    }
+		    
+			_, err := dg.ChannelMessageSend(Channel_id, msgs)
+			if err != nil {
+		        fmt.Printf("[%s] Failed to send message !\n%s\n", aurora.Red("ERROR"), err)
+		        fmt.Println(err)
+		        os.Exit(0)
+		    }
 		}
-
-        if len(Title) != 0 {
-	    	msgs = "> " + Title + "\n" + msgs + ""
-	    } else {
-	    	msgs = "" + msgs + ""
-	    }
-	    
-    	_, err := dg.ChannelMessageSend(Channel_id, msgs)
-    	
-    	if err != nil {
-	        fmt.Printf("[%s] Error!!!\n", aurora.Red("ERROR"))
-	        fmt.Println(err)
-	        os.Exit(0)
-	    }
-    	fmt.Printf(str)
+		
+    	fmt.Println(str)
 	}
 }
