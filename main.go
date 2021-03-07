@@ -163,12 +163,10 @@ func main() {
 		    	msgs = "> " + Title + "\n" + msgs + ""
 		    } else {
 		    	msgs = "" + msgs + ""
-		    }
-		    
+		    }		    
 			_, err := dg.ChannelMessageSend(Channel_id, msgs)
 			if err != nil {
-		        fmt.Printf("[%s] Failed to send message !\n%s\n", aurora.Red("ERROR"), err)
-		        fmt.Println(err)
+		        fmt.Printf("[%s] Failed to send message !\n%s\n", aurora.Red("ERROR"), err) 
 		        os.Exit(0)
 		    }
 		}
