@@ -13,7 +13,7 @@ Crafted By : github.com/vsec7
 
 ## Installation
 ```
-go get -u github.com/vsec7/distee
+go install -v github.com/vsec7/distee@latest
 ```
 
 ## Setup Configuration
